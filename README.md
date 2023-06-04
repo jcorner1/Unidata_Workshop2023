@@ -3,9 +3,10 @@
 </p>
 
 # Machine Learning to Declare Convective Mode
+Future climates are likely to lead to large-scale changes in atmospheric conditions and therefore affect convective weather. With these anticpated changes, convective mode is also expected to expecience substaintial depatures from normal. As convective mode correlates with natural hazards (i.e., hail, tornadoes, wind gusts), severity and magnitudes will also change in these hazards. 
 
 ## Data
-
+These data are unique as they follow a couple Representative Concentration Pathways (RCP; both the 4.5 and 8.5 scenarios are modeled in these data) which accounts for radiative forcing caused by increased levels of greenhouse gases within the atmosphere. RCPs are outlined in the <a href="https://www.ipcc.ch/report/ar5/syr/">Intergovernmental Panel on Climate Change 5th Assessment Report</a> addressing potential atmospheric responses to global climate change. The 4.5 scenario represents a peak in 2040 in carbon emmissions and then steady decline till the end. RCP 4.5 is considered an intermediate pathway the most likely to happen in future climates. The 8.5 scenario is indicative of a worst-case situation with no decline in carbon emmissions through 2100. Futhermore, a historic period of data from 1990 to 2005 is provided as baseline to be used as a compartive tool of same data type/format. For access to these data, please contact Victor Gensini (information provided at the bottom of the page). For more information, please read the data paper <a href="https://link.springer.com/article/10.1007/s00382-022-06306-0">here</a>. 
 
 ## Methods
 
@@ -23,6 +24,8 @@ The sample size of the oringinal data is ... Therefore, some effort is put into 
 <p>
     <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/data_aug_img.png?raw=true" width="856" height="817" />
 </p>
+
+### Gridded Data
 
 ## Results
 Since the poster can show so many results, this section can hopefully round out the rest of the results not seen as well as the figures shown on the poster. 
