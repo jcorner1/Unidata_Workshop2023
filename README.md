@@ -19,24 +19,61 @@ A deep-learning technique called a Convolutional Neural Network (CNN) is employe
 </p>
 
 #### Data Augmentation
-The sample size of the oringinal data is ... Therefore, some effort is put into bolstering the size of the data as well as reducing overfitting in the model. For this project, a method of data augmentation is employed by rotating the image arounds its centroid. This method is important as it preserves the thunderstorm in the center of the image. The figure below demostrates this concept by showing 9 augmented images of the previous figure. 
+The sample size of the oringinal data is around 6000 images. Therefore, some effort is put into bolstering the size of the data as well as reducing overfitting in the model. For this project, a method of data augmentation is employed by rotating the image arounds its centroid. This method is important as it preserves the thunderstorm in the center of the image. The figure below demostrates this concept by showing 9 augmented images of the previous figure. 
 
 <p>
     <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/data_aug_img.png?raw=true" width="856" height="817" />
 </p>
 
 ### Gridded Data
+These data are stored as netCDF files with various variables such as reflectvity, updraft helicity, wind gusts, etc. Althoug this is an ongoing project, the current work involves a thresholding both updraft helicity (75+) and reflectivity (50+). Grid points meeting both criteria are used as center-points for storms. These center-points will then later be used to generate images with the CNN to declare convective mode.
 
 ## Results
 Since the poster can show so many results, this section can hopefully round out the rest of the results not seen as well as the figures shown on the poster. 
 
 ### Classification of Convective Mode
-Using the aforementioned CNN, convective mode could be declared for each image generated. However, first we must address the training stages of the CNN model before proccedding to the next step.
+Using the aforementioned CNN, convective mode could be declared for each image generated. However, first we must address the training stages of the CNN model before proccedding to the next step. The below images shows how the CNN model improved (or didn't) in accuracy with epoch. Overall, training CNN's results in a maximum accuracy of around 90%.
 
-#### Model Training
+<p>
+    <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/Model_perf_line.png?raw=true" width="609" height="380" />
+</p>
+
+Another classic machine learning product is the confusion matrix. An algoritm that is performing is easily identfied in a confusion matrix as the bigger numbers should create a "line" with a slope of -1 (or top-left to bottom-right). As stated above, the CNN used in this project does a good job of correctly identifying storm mode. Therefore the confusion matrix belows shows the desired effect shown in the  
+
+<p>
+    <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/confusion_matrix.png?raw=true" width="479" height="363" />
+</p>
+
+
+### Gridded Storm Data
+The gridded data results are broken up by season to better show not the spatial occurence but also the temporal. The first plot below shows storm occurences for the Winter months (December, Janruary, and February). This shows some activity in the Gulf states, primarily in and around the Mississippi River Valley. 
+
+<p>
+    <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/DJF_HIST_75UH50REF.png?raw=true" width="744" height="459" />
+</p>
+
+The next plot below shows the Spring months (March, April, and May). There is heavy and distinct activity present in the Southern and Central Great Plains as well as some activity in the Mississippi and Ohio River Valley. The Spring months also show the most activity of all of the seasons in terms of storm intesity. 
+
+<p>
+    <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/MAM_HIST_75UH50REF.png?raw=true" width="744" height="459" />
+</p>
+
+The plot below shows activity for the Summer months (June, July, and August). This shows that activity mitgrates further north into the Northern Great Plains and Western Great Lake States. Although not as active as the Spring months, this season is most defintly comparable. 
+
+<p>
+    <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/JJA_HIST_75UH50REF.png?raw=true" width="744" height="459" />
+</p>
+
+Finally, the Fall months are show below. This season shows a distict drop off in terms of events but there is a cluster in the Northern Mississippi River Valley. 
+
+<p>
+    <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/SON_HIST_75UH50REF.png?raw=true" width="744" height="459" />
+</p>
+
 
 ## Future Work
-
+- Use CNN created in this project to classify convective mode for each storm identfied using the center point algorithm.
+- Create strom reports including location, intersity, other convective information, etc.
 
 ## Author Information
 Jeremy Corner - M.S. Student &nbsp; &nbsp; &nbsp;  <a href="https://github.com/jcorner1">  Github </a> &nbsp; | &nbsp;<a href="https://twitter.com/JcornerWx">  Twitter </a> &nbsp; | &nbsp; <a href="mailto:jcorner1@niu.edu">  Email </a>
