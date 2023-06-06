@@ -71,6 +71,12 @@ Finally, the Fall months are shown below. This season shows a distinct drop off 
     <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/SON_HIST_75UH50REF.png?raw=true" width="744" height="459" />
 </p>
 
+#### Improving Images
+Following some feedback given during the poster session held on first day on of the Unidata Users Workshop, some effort was put into better conveying storm frequency in the above plots. Firstly, the above plots are hard to see the frequency as they shown on the native WRF grid spacing of 3.75-km. Therefore, the data was coarsened using xarray to increase the grid spacing to 75-km and therefore easier to view while also showing more regional-scale frequency instead of local-scale. Next, the colorbar is based on the max value for each season as opposed to the max value for all the seasons. Therefore, it is important to update the colorbar to show the overall max, making it more intuitive to a person which season is more active. The below plot shows the activity for all seasons with these important aspects being used.
+
+<p>
+    <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/Storm_Reports_HIST_ALL.png?raw=true" width="744" height="459" />
+</p>
 
 ## Future Work
 - Use CNN created in this project to classify the convective mode for each storm identified using the center point algorithm.
