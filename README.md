@@ -15,7 +15,7 @@ These data are unique as they follow a couple of Representative Concentration Pa
 Furthermore, a historic period of data from 1990 to 2005 is provided as a baseline to be used as a comparative tool of the same data type/format. For access to these data, please contact Victor Gensini (information provided at the bottom of the page). For more information, please read the data paper <a href="https://link.springer.com/article/10.1007/s00382-022-06306-0">here</a>.
 
 ## Methods
-During a discussion during the workshop, the idea of making these methods malleable or to state it plainly... make it so this work is simple enough for a user so they can be changed/deleted/added as seen fit. For example, this work uses a CNN to classify convective mode within reflectivity images from model data. However, another person might want to use a CNN to classify different cloud regimes in GOES-17 imagery. Therefore, these methods are explained to a length to allow a user that has decent expercience with Python but might have fairly low expercience with machine learning. 
+During a discussion during the workshop, the idea of making these methods malleable or to state it plainly... make it so this work is simple enough for a user so they can be changed/deleted/added as seen fit. For example, this work uses a CNN to classify convective mode within reflectivity images from model data. However, another person might want to use a CNN to classify different cloud regimes in GOES-17 imagery. Therefore, these methods are explained to a length to allow a user that has decent expercience with Python but might have fairly low expercience with machine learning. The goal of this section is to provide explanation on not only the code provided, but to explcity state which lines are essentail and which can be changed.
 
 ### Machine Learning
 A deep-learning technique called a Convolutional Neural Network (CNN) is employed to classify convective mode. To use a CNN however, a person would first need to train the model. Input images centered on the particular convective object (i.e., thunderstorm) are sized 136 by 136 pixels. A traditional training/validation/testing split of (will be listed later) is done to ensure the model performs as best as it can.
@@ -41,7 +41,7 @@ y_test = keras.utils.to_categorical(y_test, num_classes)
 
 ```
 
-Finally, a hundred epochs are used to adequately train the model.  A notebook on how the CNN was developed and trained can be found here. The below figure matches the images used to train the CNN. 
+Finally, a hundred epochs are used to adequately train the model. A notebook on how the CNN was developed and trained can be found here. The below figure matches the images used to train the CNN. 
 
 <p>
     <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/Single_img.png?raw=true" width="343" height="315" />
