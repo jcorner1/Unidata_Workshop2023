@@ -85,25 +85,25 @@ Another classic machine learning product is the confusion matrix. An algorithm t
 The gridded data results are broken up by season to better show not the spatial occurrence but also the temporal. The first plot below shows storm occurrences for the Winter months (December, January, and February). This shows some activity in the Gulf states, primarily in and around the Mississippi River Valley. 
 
 <p>
-    <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/DJF_HIST_75UH50REF.png?raw=true" width="744" height="459" />
+    <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/COR_DJF_HIST_75UH50REF.png?raw=true" width="744" height="459" />
 </p>
 
 The next plot below shows the Spring months (March, April, and May). There is heavy and distinct activity present in the Southern and Central Great Plains as well as some activity in the Mississippi and Ohio River Valley. The Spring months also show the most activity of all of the seasons in terms of storm intensity. 
 
 <p>
-    <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/MAM_HIST_75UH50REF.png?raw=true" width="744" height="459" />
+    <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/COR_MAM_HIST_75UH50REF.png?raw=true" width="744" height="459" />
 </p>
 
 The plot below shows activity for the Summer months (June, July, and August). This shows that activity migrates further north into the Northern Great Plains and Western Great Lake States. Although not as active as the Spring months, this season is most definitely comparable.
 
 <p>
-    <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/JJA_HIST_75UH50REF.png?raw=true" width="744" height="459" />
+    <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/COR_JJA_HIST_75UH50REF.png?raw=true" width="744" height="459" />
 </p>
 
 Finally, the Fall months are shown below. This season shows a distinct drop off in terms of events but there is a cluster in the Northern Mississippi River Valley. 
 
 <p>
-    <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/SON_HIST_75UH50REF.png?raw=true" width="744" height="459" />
+    <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/COR_SON_HIST_75UH50REF.png?raw=true" width="744" height="459" />
 </p>
 
 ## Future Work
