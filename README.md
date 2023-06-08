@@ -5,6 +5,11 @@
 # Machine Learning to Declare Convective Mode in Future Climates
 Future climates are likely to lead to large-scale changes in atmospheric conditions and therefore affect convective weather. With these anticipated changes, convective mode is also expected to experience a substantial departure from normal. As convective mode correlates with natural hazards (i.e., hail, tornadoes, wind gusts), severity and magnitudes will also change in these hazards.
 
+## Objectives
+- Demonstrate how data is generated from the Weather and Research Forecasting (WRF) model. 
+- Explain these methods used in this project clearly and explicitly state which portions of code are needed and which lines can be modified for a different user's purpose.
+
+
 ## Data
 These data are unique as they follow a couple of Representative Concentration Pathways (RCP; both the 4.5 and 8.5 scenarios are modeled in these data) which accounts for radiative forcing caused by increased levels of greenhouse gases within the atmosphere. RCPs are outlined in the <a href="https://www.ipcc.ch/report/ar5/syr/">Intergovernmental Panel on Climate Change 5th Assessment Report</a> addressing potential atmospheric responses to global climate change. The 4.5 scenario represents a peak in 2040 in carbon emissions and then a steady decline till the end. RCP 4.5 is considered an intermediate pathway the most likely to happen in future climates. The 8.5 scenario is indicative of a worst-case situation with no decline in carbon emissions through 2100. 
 
@@ -109,6 +114,12 @@ Finally, the Fall months are shown below. This season shows a distinct drop off 
 ## Future Work
 - Use CNN created in this project to classify the convective mode for each storm identified using the center point algorithm.
 - Create strom reports including location, intensity, other convective information, etc.
+- Use XAI techniques to identify how the CNN classifies convective mode.
+
+Furthermore, there are also a lot of objectives to complete when updating this file. Some of these include:
+- Adding explanations for a majority, if not all code blocks used in the various notebooks. 
+- Clearly stating the objectives and conclusions of this project.
+
 
 ## Packages
 This work would have not been possible if not for the development and maintence of many open-source Python packages. These packages and some of the commonly used functions are provided below:
