@@ -3,27 +3,27 @@
 </p>
 
 # Machine Learning to Declare Convective Mode in Future Climates
-Future climates are likely to lead to large-scale changes in atmospheric conditions and therefore affect convective weather. With these anticipated changes, convective mode is also expected to experience a substantial departure from normal. As convective mode correlates with natural hazards (i.e., hail, tornadoes, wind gusts), severity and magnitudes will also change in these hazards.
+Future climates will likely lead to large-scale changes in atmospheric conditions and therefore affect convective weather. With these anticipated changes, convective mode is also expected to experience a substantial departure from normal. As convective mode correlates with natural hazards (i.e., hail, tornadoes, wind gusts), severity and magnitudes will also change in these hazards.
 
-## Objectives
-- Demonstrate how data is generated from the Weather and Research Forecasting (WRF) model. 
-- Explain these methods used in this project clearly and explicitly state which portions of code are needed and which lines can be modified for a different user's purpose.
-
+## Objectives 
+The objectives within this section are not limited to the scope of a normal scientific paper but also apply open-science concepts to this work. These objectives are as follows:
+- Explain these methods in this project clearly and explicitly state which portions of code are needed and which lines can be modified for a different user's purpose.
+- Demonstrate how the frequency of convective modes will change in different future climate change scenarios.
 
 ## Data
-These data are unique as they follow a couple of Representative Concentration Pathways (RCP; both the 4.5 and 8.5 scenarios are modeled in these data) which accounts for radiative forcing caused by increased levels of greenhouse gases within the atmosphere. RCPs are outlined in the <a href="https://www.ipcc.ch/report/ar5/syr/">Intergovernmental Panel on Climate Change 5th Assessment Report</a> addressing potential atmospheric responses to global climate change. The 4.5 scenario represents a peak in 2040 in carbon emissions and then a steady decline till the end. RCP 4.5 is considered an intermediate pathway the most likely to happen in future climates. The 8.5 scenario is indicative of a worst-case situation with no decline in carbon emissions through 2100. 
+These data are unique as they follow a couple of Representative Concentration Pathways (RCP; both the 4.5 and 8.5 scenarios are modeled in these data), which account for radiative forcing caused by increased levels of greenhouse gases within the atmosphere. RCPs are outlined in the <a href="https://www.ipcc.ch/report/ar5/syr/">Intergovernmental Panel on Climate Change 5th Assessment Report</a> addressing potential atmospheric responses to global climate change. The 4.5 scenario represents a peak in 2040 in carbon emissions and a steady decline till the end. RCP 4.5 is considered an intermediate pathway the most likely to happen in future climates. The 8.5 scenario indicates a worst-case situation with no decline in carbon emissions through 2100. 
 
 <p>
     <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/All_forcing_agents_CO2_equivalent_concentration.svg.png?raw=true" width="600" height="320" />
 </p>
 
-Furthermore, a historic period of data from 1990 to 2005 is provided as a baseline to be used as a comparative tool of the same data type/format. For access to these data, please contact Victor Gensini (information provided at the bottom of the page). For more information, please read the data paper <a href="https://link.springer.com/article/10.1007/s00382-022-06306-0">here</a>.
+Furthermore, a historic period of data from 1990 to 2005 is provided as a baseline to be used as a comparative tool of the same data type/format. To access these data, don't hesitate to contact Victor Gensini (information provided at the bottom of the page). For more information, please read the data paper <a href="https://link.springer.com/article/10.1007/s00382-022-06306-0">here</a>.
 
 ## Methods
-During a discussion during the workshop, the idea of making these methods malleable or to state it plainly... make it so this work is simple enough for a user so they can be changed/deleted/added as seen fit. For example, this work uses a CNN to classify convective mode within reflectivity images from model data. However, another person might want to use a CNN to classify different cloud regimes in GOES-17 imagery. Therefore, these methods are explained to a length to allow a user that has decent expercience with Python but might have fairly low expercience with machine learning. The goal of this section is to provide explanation on not only the code provided, but to explcity state which lines are essentail and which can be changed.
+During a discussion during the workshop, the idea of making these methods malleable or, to state it plainly... making it so this work is simple enough for a user so they can be changed/deleted/added as seen fit. For example, this work uses a CNN to classify convective mode within reflectivity images from model data. However, another person might want to use a CNN to classify different clouds in GOES-17 imagery. Therefore, these methods are explained to a length to allow a user with decent experience with Python but fairly low exposure to machine learning. This section explains the code provided and explicitly states which lines are essential and which can be changed. **Note:** not all lines in each notebook are explained as that would take up too much time and space. However, the most barebones code is explained with other less important aspects just being shown in the only notebooks. 
 
 ### Machine Learning
-A deep-learning technique called a Convolutional Neural Network (CNN) is employed to classify convective mode. To use a CNN however, a person would first need to train the model. Input images centered on the particular convective object (i.e., thunderstorm) are sized 136 by 136 pixels. A traditional training/validation/testing split of (will be listed later) is done to ensure the model performs as best as it can.
+A deep-learning technique called a Convolutional Neural Network (CNN) is employed to classify convective mode. Input images centered on the particular convective object (i.e., a thunderstorm) are 136 by 136 pixels. The number of classes depends strictly on the unique labels the user assigns to images in the training dataset. The height and width can vary; however, they must remain consistent for each image in the dataset. There are many different methods to find a convective object, with one described later in this section. A traditional training/validation/testing split of 70/10/20 is done to ensure the model performs as best as possible. The percentages can be changed, but as stated before is a common practice in the machine-learning community. Normilazations are an important step when preprocessing data before use in a machine-learning algorithm. These methods divide the dBz value by 80 and set the data type as a float. This is done to convert values to a fraction (convert values to a number between 0 and 1). When working with simple RBG images, the values for the three color channels are divided by 255 to achieve this effect. 
 
 ```
 #set input values
@@ -44,36 +44,84 @@ y_train = keras.utils.to_categorical(y_train, num_classes)
 y_val = keras.utils.to_categorical(y_val, num_classes)
 y_test = keras.utils.to_categorical(y_test, num_classes)
 
-```
+#Normalize by 80 dBZ
+x_train = x_train.astype("float32") / 80
+x_test = x_test.astype("float32") / 80
+x_val = x_val.astype("float32") / 80
 
-Finally, a hundred epochs are used to adequately train the model. A notebook on how the CNN was developed and trained can be found here. The below figure matches the images used to train the CNN. 
+```
+The images used as the input data for the machine-learning algorithm can be seen below. 
 
 <p>
     <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/Single_img.png?raw=true" width="343" height="315" />
 </p>
 
 #### Data Augmentation
-The sample size of the original data is around 6000 images. Therefore, some effort is put into bolstering the size of the data as well as reducing overfitting in the model. For this project, a method of data augmentation is employed by rotating the image around its centroid. This method is important as it preserves the thunderstorm in the center of the image. The figure below demonstrates this concept by showing 9 augmented images of the previous figure. 
+The sample size of the original dataset is around 6000 images. Therefore, some effort is put into bolstering the data's size and reducing overfitting in the model. For this project, a data augmentation method is employed by rotating the image around its centroid. This method is important as it preserves the thunderstorm in the center of the image. The figure below demonstrates this concept by showing nine augmented images of the previous figure. 
 
 <p>
     <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/data_aug_img.png?raw=true" width="856" height="817" />
 </p>
 
+The code below demonstrates how to achieve this effect. 
+
+```
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+datagen = ImageDataGenerator(rotation_range=55, zoom_range=[0.9,1.0], fill_mode="reflect")
+```
+
+#### Creating the CNN
+First, the different layers, inputs, and other attributes must be set before inserting data into the model. 
+
+```
+model = keras.Sequential(
+    [
+        keras.Input(shape=(136, 136, 1)),
+        layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
+        layers.SpatialDropout2D(0.3),
+        layers.MaxPooling2D(pool_size=(3, 3)),
+        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+        layers.SpatialDropout2D(0.3),
+        layers.MaxPooling2D(pool_size=(3, 3)),
+        layers.Conv2D(128, kernel_size=(3, 3), activation="relu"),
+        layers.SpatialDropout2D(0.3),
+        layers.MaxPooling2D(pool_size=(3, 3)),
+        layers.Flatten(),
+        layers.Dense(128, activation="relu"),
+        layers.Dropout(0.6),
+        layers.Dense(num_classes, activation="softmax"),
+    ]
+)
+
+keras.utils.plot_model(model, show_shapes=True)
+```
+Next, data can be inserted into the model for training.  
+
+```
+epochs = 100
+model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
+history = model.fit(datagen.flow(x_train, y_train, batch_size=32),
+                                 epochs=epochs, validation_data=(x_val, y_val), workers=8)
+```
+
+
+Finally, the notebook demonstrated above can be found <a href="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Code/Train_CNN_Model.ipynb">here</a>. Also, an additional example using pngs instead of numpy files can be found here. That code is adapted heavily from this <a href="https://www.tensorflow.org/tutorials/load_data/images">example</a> from a tutorial from the TensorFlow website. Furthermore, the <a href="https://www.tensorflow.org">TensorFlow website</a> and its <a href="https://www.tensorflow.org/tutorials">tutorial page</a> can be highly beneficial in learning to work with CNNs and other deep-learning algorithms. 
+
 ### Gridded Data
-These data are stored as netCDF files with various variables such as reflectivity, updraft helicity, wind gusts, etc. Although this is an ongoing project, the current work involves thresholding both updraft helicity (75+) and reflectivity (50+). Grid points meeting both criteria are used as center points for storms. These center points will then later be used to generate images with the CNN to declare convective mode.
+These data are stored as netCDF files with variables such as reflectivity, updraft helicity, wind gusts, etc. Although this project is ongoing, the current work involves thresholding updraft helicity (75+) and reflectivity (50+). Grid points meeting both criteria are used as center points for storms. These center points will then later be used to generate images with the CNN to declare convective mode.
 
 #### Improving Images
-Following some feedback given during the poster session held on first day on of the Unidata Users Workshop, some effort was put into better conveying storm frequency than the plots shown in the <a href="https://drive.google.com/file/d/1vF86cTyBOierITyeEUdCA9pWz4J_llVX/view?usp=sharing">poster</a>. Firstly, those plots are hard to see the frequency as they are shown on the native WRF grid spacing of 3.75-km. Therefore, the data was coarsened using xarray to increase the grid spacing to 75-km and therefore easier to view while also showing more regional-scale frequency instead of local-scale. Next, the colorbar is based on the max value for each season as opposed to the max value for all the seasons. Therefore, it is important to update the colorbar to show the overall max, making it more intuitive to a person which season is more active. The below plot shows the activity for all seasons with these important aspects being used. These improvements are then used to show the data in the results portion upcoming. 
+Following some feedback given during the poster session held on the first day of the Unidata Users Workshop, some effort was put into better conveying storm frequency than the plots shown in the <a href="https://drive.google.com/file/d/1vF86cTyBOierITyeEUdCA9pWz4J_llVX/view?usp=sharing">poster</a>. Firstly, those plots are hard to see the frequency as they are shown on the native WRF grid spacing of 3.75-km. Therefore, the data was coarsened using Xarray to increase the grid spacing to 75 km and easier to view while also showing more of a regional-scale frequency instead of a local scale. Next, the color bar is based on the maximum value for each season instead of the maximum value for all seasons. Therefore, updating the color bar to show the overall max is important, making it more intuitive to a person what season is more active. The below plot shows the activity for all seasons with these important aspects being used. These improvements are then used to show the data in the results portion upcoming. 
 
 <p>
     <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/Storm_Reports_HIST_ALL.png?raw=true" width="744" height="459" />
 </p>
 
 ## Results
-Since the poster can show so many results, this section can hopefully round out the rest of the results not seen as well as the figures shown on the poster. 
+Since the poster can only show so many results, this section rounds out the rest of the results not seen, as well as the figures shown on the poster. 
 
 ### Classification of Convective Mode
-Using the aforementioned CNN, the convective mode could be declared for each image generated. However, first, we must address the training stages of the CNN model before proceeding to the next step. The below images show how the CNN model improved (or didn't) in accuracy with epoch. Overall, training CNN results in a maximum accuracy of around 90%.
+The convective mode could be declared using the aforementioned CNN for each image generated. However, first, we must address the training stages of the CNN model before proceeding to the next step. The below images show how the CNN model improved (or didn't) in accuracy with epoch. Overall, training CNN results in a maximum accuracy of around 90%.
 
 <p>
     <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/Model_perf_line.png?raw=true" width="609" height="380" />
