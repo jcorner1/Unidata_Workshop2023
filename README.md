@@ -17,10 +17,10 @@ These data are unique as they follow a couple of Representative Concentration Pa
     <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/All_forcing_agents_CO2_equivalent_concentration.svg.png?raw=true" width="600" height="320" />
 </p>
 
-Furthermore, a historic period of data from 1990 to 2005 is provided as a baseline to be used as a comparative tool of the same data type/format. To access these data, don't hesitate to contact Victor Gensini (information provided at the bottom of the page). For more information, please read the data paper <a href="https://link.springer.com/article/10.1007/s00382-022-06306-0">here</a>.
+Furthermore, a historical period of data from 1990 to 2005 is provided as a baseline to be used as a comparative tool of the same data type/format. To access these data, don't hesitate to contact Victor Gensini (information provided at the bottom of the page). For more information, please read the data paper <a href="https://link.springer.com/article/10.1007/s00382-022-06306-0">here</a>.
 
 ## Methods
-During a discussion during the workshop, the idea of making these methods malleable or, to state it plainly... making it so this work is simple enough for a user so they can be changed/deleted/added as seen fit. For example, this work uses a CNN to classify convective mode within reflectivity images from model data. However, another person might want to use a CNN to classify different clouds in GOES-17 imagery. Therefore, these methods are explained to a length to allow a user with decent experience with Python but fairly low exposure to machine learning. This section explains the code provided and explicitly states which lines are essential and which can be changed. **Note:** not all lines in each notebook are explained as that would take up too much time and space. However, the most barebones code is explained with other less important aspects just being shown in the only notebooks. 
+During a discussion during the workshop, the idea of making these methods malleable or, to state it plainly... making it so this work is simple enough for a user so they can be changed/deleted/added as seen fit. For example, this work uses a CNN to classify convective mode within reflectivity images from model data. However, another person might want to use a CNN to classify different clouds in GOES-17 imagery. Therefore, these methods are explained to a length to allow a user with decent experience with Python but fairly low exposure to machine learning. This section explains the code provided and explicitly states which lines are essential and which can be changed. **Note:** Not all lines in each notebook are explained, as that would take up too much time and space. However, the most barebones code is explained with other less important aspects just being shown in the only notebooks. 
 
 ### Machine Learning
 A deep-learning technique called a Convolutional Neural Network (CNN) is employed to classify convective mode. Input images centered on the particular convective object (i.e., a thunderstorm) are 136 by 136 pixels. The number of classes depends strictly on the unique labels the user assigns to images in the training dataset. The height and width can vary; however, they must remain consistent for each image in the dataset. There are many different methods to find a convective object, with one described later in this section. A traditional training/validation/testing split of 70/10/20 is done to ensure the model performs as best as possible. The percentages can be changed, but as stated before is a common practice in the machine-learning community. Normilazations are an important step when preprocessing data before use in a machine-learning algorithm. These methods divide the dBz value by 80 and set the data type as a float. This is done to convert values to a fraction (convert values to a number between 0 and 1). When working with simple RBG images, the values for the three color channels are divided by 255 to achieve this effect. 
@@ -71,7 +71,7 @@ datagen = ImageDataGenerator(rotation_range=55, zoom_range=[0.9,1.0], fill_mode=
 ```
 
 #### Creating the CNN
-First, the different layers, inputs, and other attributes must be set before inserting data into the model. 
+First, the different layers, inputs, and other attributes must be set before inserting data into the model. It is important to realize that the layers can be changed and more can be added. The <a href="https://keras.io/api/layers/">Keras layers page</a> can provide some more information useful when developing a model.  
 
 ```
 model = keras.Sequential(
@@ -105,16 +105,59 @@ history = model.fit(datagen.flow(x_train, y_train, batch_size=32),
 ```
 
 
-Finally, the notebook demonstrated above can be found <a href="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Code/Train_CNN_Model.ipynb">here</a>. Also, an additional example using pngs instead of numpy files can be found here. That code is adapted heavily from this <a href="https://www.tensorflow.org/tutorials/load_data/images">example</a> from a tutorial from the TensorFlow website. Furthermore, the <a href="https://www.tensorflow.org">TensorFlow website</a> and its <a href="https://www.tensorflow.org/tutorials">tutorial page</a> can be highly beneficial in learning to work with CNNs and other deep-learning algorithms. 
+Finally, the notebook demonstrated above can be found <a href="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Code/Train_CNN_Model.ipynb">here</a>. Also, an additional example using PNGs instead of numpy files can be found here. That code is adapted heavily from this <a href="https://www.tensorflow.org/tutorials/load_data/images">example</a> from a tutorial from the TensorFlow website. Furthermore, the <a href="https://www.tensorflow.org">TensorFlow website</a> and its <a href="https://www.tensorflow.org/tutorials">tutorial page</a> can be highly beneficial in learning to work with CNNs and other deep-learning algorithms. 
 
 ### Gridded Data
 These data are stored as netCDF files with variables such as reflectivity, updraft helicity, wind gusts, etc. Although this project is ongoing, the current work involves thresholding updraft helicity (75+) and reflectivity (50+). Grid points meeting both criteria are used as center points for storms. These center points will then later be used to generate images with the CNN to declare convective mode.
 
 #### Improving Images
-Following some feedback given during the poster session held on the first day of the Unidata Users Workshop, some effort was put into better conveying storm frequency than the plots shown in the <a href="https://drive.google.com/file/d/1vF86cTyBOierITyeEUdCA9pWz4J_llVX/view?usp=sharing">poster</a>. Firstly, those plots are hard to see the frequency as they are shown on the native WRF grid spacing of 3.75-km. Therefore, the data was coarsened using Xarray to increase the grid spacing to 75 km and easier to view while also showing more of a regional-scale frequency instead of a local scale. Next, the color bar is based on the maximum value for each season instead of the maximum value for all seasons. Therefore, updating the color bar to show the overall max is important, making it more intuitive to a person what season is more active. The below plot shows the activity for all seasons with these important aspects being used. These improvements are then used to show the data in the results portion upcoming. 
+Following some feedback given during the poster session held on the first day of the Unidata Users Workshop, some effort was put into better conveying storm frequency than the plots shown in the <a href="https://drive.google.com/file/d/1vF86cTyBOierITyeEUdCA9pWz4J_llVX/view?usp=sharing">poster</a>. Firstly, those plots are hard to see the frequency as they are shown on the native WRF grid spacing of 3.75-km. Therefore, the data was coarsened using Xarray to increase the grid spacing to 75-km and easier to view while also showing more of a regional-scale frequency instead of a local scale. Next, the colorbar is based on the maximum value for each season instead of the maximum value for all seasons. Therefore, updating the colorbar to show the overall max is important, making it more intuitive to a person what season is more active. The below plot shows the activity for all seasons with these important aspects being used. These improvements are then used to show the data in the results portion upcoming. 
 
 <p>
     <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/Storm_Reports_HIST_ALL.png?raw=true" width="744" height="459" />
+</p>
+
+### Model Classifications
+Next, the model built can classify or predict the convective mode of images generated from the data.
+
+#### Checking Performance of CNN Classification
+It is important to check the classifications to make sure they make sense with what the model is supposed to predict. This can be done by plotting a simple histogram. A simple one-line of code is needed to plot a rough histogram from the information in the pandas dataframe. The axis font size is adjusted to prevent the class names from running into other axis labels but is still semi-legible (if you zoom in). As well the plot created from the line of code is provided below. 
+
+```
+df.Mode.hist(xlabelsize = 5)
+```
+
+<p>
+    <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/June_Histogram_Preds.png?raw=true" width="381" height="246" />
+</p>
+
+At first glance, the tropical class appears to be a little larger than it should be; however, it is possible due to the method by which images are generated for each storm biasing data towards tropical storms (hurricanes are a great source of 50+ reflectivity and 75+ updraft helicity). Therefore, more effort is then put into checking the model's performance. The code and figures created are provided below.  
+
+```
+from svrimg.mapping.map_helper import radar_colormap, draw_box_plot
+from matplotlib.colors import BoundaryNorm
+
+#load a radarcolormap
+cmap = radar_colormap()
+classes = np.array(list(range(0, 85, 5)))
+norm = BoundaryNorm(classes, ncolors=cmap.N)
+plt.rcParams['figure.figsize'] = 17, 10
+
+#iterate through each class
+for i in range(6):
+    ax = plt.subplot(2,3,i+1)
+
+    #find a random image for each class and annotate the class
+    sample = np.load(f"/home/jovyan/shared/jcorner_data/pkls/data/{new_df[(new_df['Mode'] == lookup[i])].sample()['Filename'].values[0]}")
+    ax.annotate(f'{lookup[i]}', (0.03,0.05),fontsize=15, 
+                        bbox=dict(boxstyle='round', facecolor='w', alpha=1), xycoords='axes fraction')
+
+    #plot the data
+    draw_box_plot(ax, sample.squeeze())
+```
+
+<p>
+    <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/Each_Class_Pred.png?raw=true" width="1027" height="578" />
 </p>
 
 ## Results
@@ -127,7 +170,7 @@ The convective mode could be declared using the aforementioned CNN for each imag
     <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/Model_perf_line.png?raw=true" width="609" height="380" />
 </p>
 
-Another classic machine learning product is the confusion matrix. An algorithm that is performing is easily identified in a confusion matrix as the bigger numbers should create a "line" with a slope of -1 (or top-left to bottom-right). As stated above, the CNN used in this project does a good job of correctly identifying storm mode. Therefore the confusion matrix below shows the desired effect talked about previously.
+Another classic machine learning product is the confusion matrix. An algorithm performing is easily identified in a confusion matrix as the bigger numbers should create a "line" with a slope of -1 (or top-left to bottom-right). As stated above, the CNN used in this project does a good job of correctly identifying storm mode. Therefore the confusion matrix below shows the desired effect talked about previously.
 
 <p>
     <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/confusion_matrix.png?raw=true" width="479" height="363" />
@@ -135,7 +178,7 @@ Another classic machine learning product is the confusion matrix. An algorithm t
 
 
 ### Gridded Storm Data
-The gridded data results are broken up by season to better show not the spatial occurrence but also the temporal. The first plot below shows storm occurrences for the Winter months (December, January, and February). This shows some activity in the Gulf states, primarily in and around the Mississippi River Valley. 
+The gridded data results are broken up by season to show the spatial and temporal occurrence better. The first plot below shows storm occurrences for the Winter months (December, January, and February). This shows some activity in the Gulf states, primarily in and around the Mississippi River Valley. 
 
 <p>
     <img src="https://github.com/jcorner1/Unidata_Workshop2023/blob/main/Plots/COR_DJF_HIST_75UH50REF.png?raw=true" width="744" height="459" />
@@ -165,20 +208,22 @@ Finally, the Fall months are shown below. This season shows a distinct drop off 
 - Use XAI techniques to identify how the CNN classifies convective mode.
 
 Furthermore, there are also a lot of objectives to complete when updating this file. Some of these include:
-- Adding explanations for a majority, if not all code blocks used in the various notebooks. 
+- Adding explanations for most, if not all, code blocks used in the various notebooks. 
 - Clearly stating the objectives and conclusions of this project.
 
 
 ## Packages
-This work would have not been possible if not for the development and maintence of many open-source Python packages. These packages and some of the commonly used functions are provided below:
+This work was only possible using a few open-source Python packages. These packages and some of the commonly used functions are provided below:
 
-- **Xarray** - A library normally used when working with gridded data such as netCDF and grib files. Some of the fuctions used is this work includes:
-    - **Coarsen** - Makes data more coarse (i.e., lowers the resoultion or increases grid spacing).
-    - **Where** - Find values of certain logic (greater than or equal to 40). Function also allows augmentation of data by performing basic math on the values meeting the criteria or setting it to a set number.  
-- **TensorFlow** - A library that eases the development of workflows when using machine learning. TensorFlow is the most popularly used packages in the machine learning industry and some of the commonly used functions are listed next:
-    - **Keras** - Important sublibrary housing different forms of deeper machine learning models. Most commonly used when working with nerual networks. 
-- **Pandas** - A library used to working with tabular data such as csv. 
-- **Numpy** - A library used when creating and changing data within an array. There are many simple functions used when "playing with the data", of which some are listed below:
+- **Xarray** - A library is normally used for gridded data such as netCDF and grib files. Some of the functions used in this work include:
+    - **Coarsen** - Makes data more coarse (i.e., lowers the resolution or increases grid spacing).
+    - **Where** - Find values of certain logic (greater than or equal to 40). The function also allows data augmentation by performing basic math on the values meeting the criteria or setting it to a set number.  
+- **TensorFlow** - A library that eases the development of workflows when using machine learning. TensorFlow is the most popularly used package in the machine learning industry, and some of the commonly used functions are listed next:
+    - **Keras** - Important sublibrary housing different forms of deeper machine learning models. Most commonly used when working with neural networks. 
+- **Pandas** - A library useful when working with tabular data like CSV files.
+    - **Dataframe** - A common form of expressing tabular data. Opening a CSV will return a pandas dataframe, but one can also be made from scratch. 
+        - **Append** - Adds a row to a dataframe.   
+- **Numpy** - A library used when creating and changing data within an array. There are many simple functions used when "playing with the data," of which are listed below:
 
 ## Author Information
 Jeremy Corner - M.S. Student &nbsp; &nbsp; &nbsp;  <a href="https://github.com/jcorner1">Github</a> &nbsp; | &nbsp;<a href="https://twitter.com/JcornerWx">Twitter</a> &nbsp; | &nbsp; <a href="mailto:jcorner1@niu.edu">Email</a>
@@ -193,3 +238,7 @@ Victor Gensini - Member &nbsp; &nbsp; &nbsp;  <a href="https://github.com/vgensi
 Walker Ashley -  Member &nbsp; &nbsp; &nbsp; <a href="https://twitter.com/WalkerSAshley">Twitter</a> &nbsp; | &nbsp; <a href="https://chubasco.niu.edu/">Website</a> &nbsp; |  &nbsp; <a href="https://scholar.google.com/citations?user=SwhAm7IAAAAJ&hl">Google Scholar</a>
 
 Scott Collis - Collaborator &nbsp; &nbsp; &nbsp; <a href="https://github.com/scollis">Github</a> &nbsp; | &nbsp; <a href="https://twitter.com/Cyclogenesis_au">Twitter</a> &nbsp; | &nbsp; <a href="https://opensky.press/">Website</a> &nbsp; |  &nbsp; <a href="https://scholar.google.com/citations?hl=en&user=eMCDQDIAAAAJ">Google Scholar</a>
+
+## Acknowledgements 
+
+The author and committee members would like to acknowledge the... We would also like to thank Unidata and Jetstream's computational power and GPU access. Finally, the author thanks his committee members for all their help and his advisor for the many opportunities provided to him. 
